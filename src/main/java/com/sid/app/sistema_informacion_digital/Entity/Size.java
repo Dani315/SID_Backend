@@ -1,16 +1,18 @@
 package com.sid.app.sistema_informacion_digital.Entity;
 
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "USER")
-public class User implements Serializable {
+@Table(name = "SIZE")
+public class Size  implements Serializable {
 
     @Id
-    private String cedula;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long code;
 
-    @Column(length = 50)
+    @Column
     private String name;
 
 }
