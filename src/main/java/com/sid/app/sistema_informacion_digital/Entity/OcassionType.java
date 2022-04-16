@@ -12,6 +12,6 @@ public class OcassionType  implements Serializable {
     private Long code;
 
     @Column
-    private Long name;
+    private String  name;
 
 }

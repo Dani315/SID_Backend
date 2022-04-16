@@ -1,6 +1,7 @@
 package com.sid.app.sistema_informacion_digital.Controller;
 
 
+import com.sid.app.sistema_informacion_digital.Controller.dto.UserDto;
 import com.sid.app.sistema_informacion_digital.Entity.User;
 import com.sid.app.sistema_informacion_digital.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,18 @@ public class UserController {
                 .body(userService.save(user));
     }
 
-    @GetMapping("/{id}")
-    public  ResponseEntity<?> read(@PathVariable(value="id") Long userId){
+    //@GetMapping("/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET,  produces="application/json")
+    public  ResponseEntity<UserDto> read(@PathVariable(value="id") String userId){
         Optional<User> oUser = userService.findById(userId);
 
         if(oUser.isEmpty()) {
             return  ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(oUser);
+        return ResponseEntity.status(HttpStatus.OK)//.ok(oUser)
+                .body(UserDto
+                        .builder().cedula(oUser.get().getCedula()).name(oUser.get().getName()).build());
     }
 
 }

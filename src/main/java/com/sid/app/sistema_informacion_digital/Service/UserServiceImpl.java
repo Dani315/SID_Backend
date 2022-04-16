@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(String id) {
 
         return userRepository.findById(id);
 
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void deleteById(Long id) {
+    public void deleteById(String id) {
         userRepository.deleteById(id);
     }
 }
