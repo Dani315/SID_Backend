@@ -1,6 +1,8 @@
 package com.sid.app.sistema_informacion_digital.Service;
 
+import com.sid.app.sistema_informacion_digital.Entity.Client;
 import com.sid.app.sistema_informacion_digital.Entity.User;
+import com.sid.app.sistema_informacion_digital.Repository.ClientRepository;
 import com.sid.app.sistema_informacion_digital.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -39,13 +44,20 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public User save(User user) {
-        return userRepository.save(user);
+    public void save(User user) {
+        userRepository.save(user);
     }
 
     @Override
     @Transactional
     public void deleteById(String id) {
         userRepository.deleteById(id);
+    }
+
+
+    @Override
+    @Transactional
+    public Client saveClient(Client client) {
+        return clientRepository.save(client);
     }
 }

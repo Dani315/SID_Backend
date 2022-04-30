@@ -1,5 +1,6 @@
 package com.sid.app.sistema_informacion_digital.Service;
 
+import com.sid.app.sistema_informacion_digital.Entity.Client;
 import com.sid.app.sistema_informacion_digital.Entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +16,10 @@ public interface UserService {
 
     public Optional<User> findById(String id);
 
-    public User save(User user);
+    public void save(User user);
 
     public void deleteById(String id);
+
+    public Client saveClient(Client client);
 
 }

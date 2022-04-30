@@ -6,6 +6,13 @@ import java.io.Serializable;
 @Entity
 @Table(name = "USER")
 public class User implements Serializable {
+    public User() {
+    }
+
+    public User(String cedula, String name) {
+        this.cedula = cedula;
+        this.name = name;
+    }
 
     @Id
     private String cedula;
