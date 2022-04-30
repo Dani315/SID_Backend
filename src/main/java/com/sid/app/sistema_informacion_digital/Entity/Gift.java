@@ -21,6 +21,19 @@ public class Gift  implements Serializable {
     @Column
     private Date creationDate;
 
+    public String getSerial() {
+        return serial;
+    }
 
+    public String getUsuarioId() {
+        return usuarioId;
+    }
 
+    public String getState() {
+        return state;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
 }
