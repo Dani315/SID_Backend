@@ -11,5 +11,6 @@ public class GiftDto {
     private String serial;
     private String state;
     private Date creationDate;
+    private Date actualizationDate;
     private String userId;
 }

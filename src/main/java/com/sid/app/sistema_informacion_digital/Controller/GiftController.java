@@ -35,7 +35,7 @@ public class GiftController {
         Optional<Gift> oGift = giftUseCase.find(giftId);
 
         if(oGift.isEmpty()) {
-           return ResponseEntity.badRequest().body(
+            return ResponseEntity.badRequest().body(
                     ResponseDto.builder()
                             .error("BONO NO ENCONTRADO")
                             .build()
@@ -49,6 +49,31 @@ public class GiftController {
                         .creationDate(oGift.get().getCreationDate())
                         .serial(oGift.get().getSerial())
                         .state(oGift.get().getState())
+                        .actualizationDate(oGift.get().getActualizationDate())
+                        .build())
+                .build());
+    }
+
+    @RequestMapping(value = "/{giftId}", method = RequestMethod.PUT,  produces="application/json")
+    public  ResponseEntity<?> update(@PathVariable(value="giftId") String giftId){
+        Optional<Gift> oGift = giftUseCase.updateGift(giftId);
+
+        if(oGift.isEmpty()) {
+            return ResponseEntity.badRequest().body(
+                    ResponseDto.builder()
+                            .error("BONO NO ENCONTRADO")
+                            .build()
+            );
+        }
+
+        return ResponseEntity.ok(ResponseDto.builder()
+                .info(GiftDto
+                        .builder()
+                        .userId(oGift.get().getUsuarioId())
+                        .creationDate(oGift.get().getCreationDate())
+                        .serial(oGift.get().getSerial())
+                        .state(oGift.get().getState())
+                        .actualizationDate(oGift.get().getActualizationDate())
                         .build())
                 .build());
     }
