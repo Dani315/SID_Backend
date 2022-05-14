@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -26,6 +27,9 @@ public class ProductServiceImpl implements ProductService{
 
     @Autowired
     private ImageRepository imageRepository;
+
+    @Autowired
+    private SizeReferenceRepository sizeReferenceRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -56,5 +60,15 @@ public class ProductServiceImpl implements ProductService{
     @Transactional(readOnly = true)
     public List<Image> findAllImages(String EAN) {
         return imageRepository.findAllByProductId(EAN);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+        public List<Size> findAllSizeReference(Long code) {
+        return sizeReferenceRepository.findAllByReferenceId(code)
+                .stream()
+                .map(size -> sizeRepository.findByCode(size.getSizeId())
+                        .orElse(null)
+                ).collect(Collectors.toList());
     }
 }

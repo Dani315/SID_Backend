@@ -33,4 +33,8 @@ public class ProductUseCase {
     public List<Image> findAllImagesByProduct(String EAN) {
         return  productService.findAllImages(EAN);
     }
+
+    public List<Size> findAllSizeReferenceByProduct(Long code) {
+        return  productService.findAllSizeReference(code);
+    }
 }

@@ -1,9 +1,6 @@
 package com.sid.app.sistema_informacion_digital.Controller;
 
-import com.sid.app.sistema_informacion_digital.Controller.dto.ImageDto;
-import com.sid.app.sistema_informacion_digital.Controller.dto.ProductDto;
-import com.sid.app.sistema_informacion_digital.Controller.dto.ResponseDto;
-import com.sid.app.sistema_informacion_digital.Controller.dto.UserDto;
+import com.sid.app.sistema_informacion_digital.Controller.dto.*;
 import com.sid.app.sistema_informacion_digital.Entity.Product;
 import com.sid.app.sistema_informacion_digital.Entity.Reference;
 import com.sid.app.sistema_informacion_digital.UseCase.ProductUseCase;
@@ -31,10 +28,14 @@ public class ProductController {
                         .map(size -> ResponseEntity.ok(ResponseDto.builder()
                             .info(ProductDto.builder()
                                     .ean(ean)
-                                    .colorName(color.getName())
-                                    .colorCode(color.getCode())
-                                    .sizeName(size.getName())
-                                    .sizeCode(size.getCode())
+                                    .color(DetalleDto.builder()
+                                            .code(color.getCode())
+                                            .name(color.getName())
+                                            .build())
+                                    .size(DetalleDto.builder()
+                                            .code(size.getCode())
+                                            .name(size.getName())
+                                            .build())
                                     .codeReference(reference.getCode())
                                     .nameReference(reference.getName())
                                     .price(reference.getPrice())
@@ -60,5 +61,21 @@ public class ProductController {
         return  ResponseEntity.ok(ResponseDto.builder()
                 .info(imageDtoList)
                 .build());
+    }
+
+    @GetMapping("talla-referencia/{referenceId}")
+    public ResponseEntity<?> readReferenceSize(@PathVariable(value="referenceId") Long referenceId){
+        List<DetalleDto> sizeReferenceList = productUseCase.findAllSizeReferenceByProduct(referenceId)
+                .stream()
+                .map(sizeReference -> DetalleDto.builder()
+                        .code(sizeReference.getCode())
+                        .name(sizeReference.getName())
+                        .build())
+                .collect(Collectors.toList());
+
+        return  ResponseEntity.ok(ResponseDto.builder()
+                .info(sizeReferenceList)
+                .build());
+
     }
 }

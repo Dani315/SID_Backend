@@ -9,13 +9,9 @@ public class ProductDto {
 
     private String ean;
 
-    private String colorName;
+    private DetalleDto color;
 
-    private Long colorCode;
-
-    private String sizeName;
-
-    private Long sizeCode;
+    private DetalleDto size;
 
     private Long codeReference;
 

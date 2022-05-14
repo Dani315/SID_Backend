@@ -16,4 +16,6 @@ public interface ProductService {
     Optional<Reference> findReference(Long code);
 
     List<Image> findAllImages(String EAN);
+
+    List<Size> findAllSizeReference(Long code);
 }
