@@ -1,7 +1,9 @@
 package com.sid.app.sistema_informacion_digital.Controller;
 
 
+import com.sid.app.sistema_informacion_digital.Controller.dto.ResponseDto;
 import com.sid.app.sistema_informacion_digital.Controller.dto.UserDto;
+import com.sid.app.sistema_informacion_digital.Entity.Employee;
 import com.sid.app.sistema_informacion_digital.Entity.User;
 import com.sid.app.sistema_informacion_digital.Service.UserService;
 import com.sid.app.sistema_informacion_digital.UseCase.UserUseCase;
@@ -22,29 +24,26 @@ public class UserController {
     @Autowired
     private UserUseCase userUseCase;
 
+    @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET,  produces="application/json")
+    public  ResponseEntity<ResponseDto> read(@PathVariable(value="id") String userId){
 
-    //Create a new user
-    /*@PostMapping
-    public ResponseEntity<?> create(@RequestBody User user) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(userService.save(user));
-    }*/
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET,  produces="application/json")
-    public  ResponseEntity<UserDto> read(@PathVariable(value="id") String userId){
-
-        Optional<User> oUser = userUseCase.findUser(userId);
+        Optional<Employee> oUser = userUseCase.findEmployee(userId);
 
         if(oUser.isEmpty()) {
-            return  ResponseEntity.notFound().build();
+            return  ResponseEntity.badRequest()
+                    .body(ResponseDto.builder()
+                            .error("ESTE EMPLEADO NO EXISTE")
+                            .build());
         }
 
-        return ResponseEntity.status(HttpStatus.OK)//.ok(oUser)
-                .body(UserDto.builder()
-                        .cedula(oUser.get()
-                                .getCedula())
-                        .name(oUser.get()
-                                .getName())
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.builder()
+                        .info(UserDto.builder()
+                                .cedula(oUser.get()
+                                        .getCedula())
+                                .name(oUser.get()
+                                        .getPosition())
+                                .build())
                         .build()
                 );
     }

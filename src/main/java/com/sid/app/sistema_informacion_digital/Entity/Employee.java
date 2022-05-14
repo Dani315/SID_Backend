@@ -15,4 +15,12 @@ public class Employee  implements Serializable {
 
     @Column
     private String position;
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public String getPosition() {
+        return position;
+    }
 }

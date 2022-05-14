@@ -1,8 +1,10 @@
 package com.sid.app.sistema_informacion_digital.Service;
 
 import com.sid.app.sistema_informacion_digital.Entity.Client;
+import com.sid.app.sistema_informacion_digital.Entity.Employee;
 import com.sid.app.sistema_informacion_digital.Entity.User;
 import com.sid.app.sistema_informacion_digital.Repository.ClientRepository;
+import com.sid.app.sistema_informacion_digital.Repository.EmployeeRepository;
 import com.sid.app.sistema_informacion_digital.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     private ClientRepository clientRepository;
@@ -65,5 +70,11 @@ public class UserServiceImpl implements UserService{
     @Transactional(readOnly = true)
     public List<Client> findClient(String id, String email) {
         return clientRepository.findByCedulaOrEmail(id, email);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Employee> findEmployeeById(String id) {
+        return employeeRepository.findByCedula(id);
     }
 }
