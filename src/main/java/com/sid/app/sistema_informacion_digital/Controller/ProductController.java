@@ -78,4 +78,19 @@ public class ProductController {
                 .build());
 
     }
+    @GetMapping("color-referencia/{referenceId}")
+    public ResponseEntity<?> readReferenceColor(@PathVariable(value="referenceId") Long referenceId){
+        List<DetalleDto> colorReferenceList = productUseCase.findAllColorReferenceByProduct(referenceId)
+                .stream()
+                .map(colorReference -> DetalleDto.builder()
+                        .code(colorReference.getCode())
+                        .name(colorReference.getName())
+                        .build())
+                .collect(Collectors.toList());
+
+        return  ResponseEntity.ok(ResponseDto.builder()
+                .info(colorReferenceList)
+                .build());
+
+    }
 }

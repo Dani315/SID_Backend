@@ -18,4 +18,6 @@ public interface ProductService {
     List<Image> findAllImages(String EAN);
 
     List<Size> findAllSizeReference(Long code);
+
+    List<Color> findAllColorReference(Long code);
 }

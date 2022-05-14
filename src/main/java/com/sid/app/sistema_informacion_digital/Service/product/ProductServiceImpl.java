@@ -31,6 +31,9 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     private SizeReferenceRepository sizeReferenceRepository;
 
+    @Autowired
+    private ColorReferenceRepository colorReferenceRepository;
+
     @Override
     @Transactional(readOnly = true)
     public Optional<Product> findByEAN(String EAN) {
@@ -68,6 +71,16 @@ public class ProductServiceImpl implements ProductService{
         return sizeReferenceRepository.findAllByReferenceId(code)
                 .stream()
                 .map(size -> sizeRepository.findByCode(size.getSizeId())
+                        .orElse(null)
+                ).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Color> findAllColorReference(Long code) {
+        return colorReferenceRepository.findAllByReferenceId(code)
+                .stream()
+                .map(color -> colorRepository.findByCode(color.getColorId())
                         .orElse(null)
                 ).collect(Collectors.toList());
     }

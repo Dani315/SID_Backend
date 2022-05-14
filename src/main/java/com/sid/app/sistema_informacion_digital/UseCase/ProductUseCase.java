@@ -37,4 +37,8 @@ public class ProductUseCase {
     public List<Size> findAllSizeReferenceByProduct(Long code) {
         return  productService.findAllSizeReference(code);
     }
+
+    public List<Color> findAllColorReferenceByProduct(Long code) {
+        return  productService.findAllColorReference(code);
+    }
 }

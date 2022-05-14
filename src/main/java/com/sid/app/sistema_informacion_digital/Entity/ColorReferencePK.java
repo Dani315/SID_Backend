@@ -1,17 +1,18 @@
 package com.sid.app.sistema_informacion_digital.Entity;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-public class SizeReferencePK implements Serializable {
+public class ColorReferencePK  implements Serializable {
 
-    private Long sizeId;
+    private Long colorId;
 
     private Long referenceId;
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.sizeId);
+        hash = 59 * hash + Objects.hashCode(this.colorId);
         hash = 59 * hash + Objects.hashCode(this.referenceId);
         return hash;
     }
@@ -27,11 +28,11 @@ public class SizeReferencePK implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final SizeReferencePK other = (SizeReferencePK) obj;
+        final ColorReferencePK other = (ColorReferencePK) obj;
         if (!Objects.equals(this.referenceId, other.referenceId)) {
             return false;
         }
-        if (!Objects.equals(this.sizeId, other.sizeId)) {
+        if (!Objects.equals(this.colorId, other.colorId)) {
             return false;
         }
         return true;
