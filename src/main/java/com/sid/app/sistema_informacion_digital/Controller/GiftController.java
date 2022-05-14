@@ -2,13 +2,10 @@ package com.sid.app.sistema_informacion_digital.Controller;
 
 import com.sid.app.sistema_informacion_digital.Controller.dto.GiftDto;
 import com.sid.app.sistema_informacion_digital.Controller.dto.ResponseDto;
-import com.sid.app.sistema_informacion_digital.Controller.dto.UserDto;
 import com.sid.app.sistema_informacion_digital.Entity.Client;
 import com.sid.app.sistema_informacion_digital.Entity.Gift;
-import com.sid.app.sistema_informacion_digital.Entity.User;
 import com.sid.app.sistema_informacion_digital.UseCase.GiftUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,7 +53,7 @@ public class GiftController {
         Optional<Gift> oGift = giftUseCase.find(giftId);
 
         if(oGift.isEmpty()) {
-           return ResponseEntity.badRequest().body(
+            return ResponseEntity.badRequest().body(
                     ResponseDto.builder()
                             .error("BONO NO ENCONTRADO")
                             .build()
@@ -70,6 +67,31 @@ public class GiftController {
                         .creationDate(oGift.get().getCreationDate())
                         .serial(oGift.get().getSerial())
                         .state(oGift.get().getState())
+                        .actualizationDate(oGift.get().getActualizationDate())
+                        .build())
+                .build());
+    }
+
+    @RequestMapping(value = "/{giftId}", method = RequestMethod.PUT,  produces="application/json")
+    public  ResponseEntity<?> update(@PathVariable(value="giftId") String giftId){
+        Optional<Gift> oGift = giftUseCase.updateGift(giftId);
+
+        if(oGift.isEmpty()) {
+            return ResponseEntity.badRequest().body(
+                    ResponseDto.builder()
+                            .error("BONO NO ENCONTRADO")
+                            .build()
+            );
+        }
+
+        return ResponseEntity.ok(ResponseDto.builder()
+                .info(GiftDto
+                        .builder()
+                        .userId(oGift.get().getUsuarioId())
+                        .creationDate(oGift.get().getCreationDate())
+                        .serial(oGift.get().getSerial())
+                        .state(oGift.get().getState())
+                        .actualizationDate(oGift.get().getActualizationDate())
                         .build())
                 .build());
     }

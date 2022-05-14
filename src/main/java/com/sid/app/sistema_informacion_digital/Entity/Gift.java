@@ -1,7 +1,6 @@
 package com.sid.app.sistema_informacion_digital.Entity;
 
 import javax.persistence.*;
-import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -54,14 +53,6 @@ public class Gift  implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public Date getActualizationDate() {
-        return actualizationDate;
-    }
-
-    public void setActualizationDate(Date actualizationDate) {
-        this.actualizationDate = actualizationDate;
-    }
-
     public String getUsuarioId() {
         return usuarioId;
     }
@@ -72,5 +63,13 @@ public class Gift  implements Serializable {
 
     public Date getCreationDate() {
         return creationDate;
+    }
+
+    public Date getActualizationDate() {
+        return actualizationDate;
+    }
+
+    public void setActualizationDate(Date actualizationDate) {
+        this.actualizationDate = actualizationDate;
     }
 }
