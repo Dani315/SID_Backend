@@ -7,6 +7,15 @@ import java.io.Serializable;
 @Table(name = "QUALIFICATION")
 public class Qualification  implements Serializable {
 
+    public Qualification() {
+    }
+
+    public Qualification(Long code, Integer quantityLike, Integer quantityDisLike) {
+        this.code = code;
+        this.quantityLike = quantityLike;
+        this.quantityDisLike = quantityDisLike;
+    }
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long code;
@@ -27,5 +36,17 @@ public class Qualification  implements Serializable {
 
     public Integer getQuantityDisLike() {
         return quantityDisLike;
+    }
+
+    public void setCode(Long code) {
+        this.code = code;
+    }
+
+    public void setQuantityLike(Integer quantityLike) {
+        this.quantityLike = quantityLike;
+    }
+
+    public void setQuantityDisLike(Integer quantityDisLike) {
+        this.quantityDisLike = quantityDisLike;
     }
 }

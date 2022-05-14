@@ -26,4 +26,7 @@ public interface ProductService {
     List<Product> findByOcassionType(Long ocassionTypeId);
 
     Optional<Qualification> findByQualification(Long qualificationId);
+
+    @Transactional
+    void update(Qualification qualification);
 }

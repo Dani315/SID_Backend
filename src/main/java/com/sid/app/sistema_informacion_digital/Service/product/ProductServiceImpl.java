@@ -108,4 +108,11 @@ public class ProductServiceImpl implements ProductService{
     public Optional<Qualification> findByQualification(Long qualificationId) {
         return qualificationRepository.findByCode(qualificationId);
     }
+
+    @Override
+    @Transactional
+    public void update(Qualification qualification) {
+        qualificationRepository.save(qualification);
+    }
+
 }

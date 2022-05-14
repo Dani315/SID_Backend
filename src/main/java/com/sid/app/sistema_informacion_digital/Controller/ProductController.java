@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -124,6 +125,25 @@ public class ProductController {
                                                 ))
                                 ).collect(Collectors.toList()))
                         .build());
+    }
+
+    @RequestMapping(value = "qualification/{qualificationId}/{type}", method = RequestMethod.PUT, produces="application/json")
+    public  ResponseEntity<?> update(@PathVariable(value="qualificationId") Long qualificationId,
+                                     @PathVariable(value="type") int type) {
+
+        Optional<Qualification> oQualification = productUseCase.updateLikes(qualificationId, type);
+
+        if(oQualification.isEmpty()) {
+            return ResponseEntity.badRequest().body(
+                    ResponseDto.builder()
+                            .error("LA CALIFICACIÓN DE ESTE PRODUCTO NO SE ENCUENTRA")
+                            .build()
+            );
+        }
+
+        return ResponseEntity.ok(ResponseDto.builder()
+                .info("CALIFICACIÓN ACTUALIZADA")
+                .build());
     }
 
     private ProductDto getBuild(String ean, Product product, Reference reference, Color color, Size size) {

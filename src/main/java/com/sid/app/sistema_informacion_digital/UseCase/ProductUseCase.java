@@ -1,10 +1,13 @@
 package com.sid.app.sistema_informacion_digital.UseCase;
 
 import com.sid.app.sistema_informacion_digital.Entity.*;
+import com.sid.app.sistema_informacion_digital.Entity.Enumerable.StateGift;
 import com.sid.app.sistema_informacion_digital.Service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,5 +55,20 @@ public class ProductUseCase {
 
     public Optional<Qualification> findByQualification(Long qualificationId) {
         return  productService.findByQualification(qualificationId);
+    }
+
+    public Optional<Qualification> updateLikes(Long idQuialification, int type){
+        Optional<Qualification> qualification = productService.findByQualification(idQuialification);
+
+        if (qualification.isPresent()) {
+            if (type==0) {
+                qualification.get().setQuantityLike(qualification.get().getQuantityLike() + 1);
+            } else {
+                qualification.get().setQuantityDisLike(qualification.get().getQuantityDisLike() + 1);
+            }
+            productService.update(qualification.get());
+        }
+
+        return qualification;
     }
 }
