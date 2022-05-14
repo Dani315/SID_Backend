@@ -3,6 +3,8 @@ package com.sid.app.sistema_informacion_digital.Controller.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Builder
 @Data
 public class LocationDto {
@@ -13,9 +15,7 @@ public class LocationDto {
 
     private String name;
 
-    private Double latitude;
-
-    private Double longitude;
+    private List<Double> geography;
 
     private Integer stock;
 

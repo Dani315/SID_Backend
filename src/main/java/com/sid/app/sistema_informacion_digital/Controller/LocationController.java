@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,8 +31,7 @@ public class LocationController {
                                         .serial(locationProduct.getLocationId())
                                         .address(location.getAddress())
                                         .name(location.getName())
-                                        .latitude(location.getLatitude())
-                                        .longitude(location.getLongitude())
+                                        .geography(Arrays.asList(location.getLatitude(),location.getLongitude()))
                                         .stock(locationProduct.getStock())
                                         .build()))
                         .collect(Collectors.toList()))
