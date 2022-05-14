@@ -18,6 +18,10 @@ public class ProductUseCase {
        return productService.findByEAN(EAN);
     }
 
+    public List<Product> findAllProducts() {
+        return productService.findAll();
+    }
+
     public Optional<Reference> findReference(Long code) {
         return productService.findReference(code);
     }

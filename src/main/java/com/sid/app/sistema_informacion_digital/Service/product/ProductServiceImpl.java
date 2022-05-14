@@ -46,6 +46,12 @@ public class ProductServiceImpl implements ProductService{
         return productRepository.findByEAN(EAN);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
 
     @Override
     @Transactional(readOnly = true)

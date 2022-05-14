@@ -9,6 +9,8 @@ import java.util.Optional;
 public interface ProductService {
     Optional<Product> findByEAN(String EAN);
 
+    List<Product> findAll();
+
     Optional<Color> findColor(Long code);
 
     Optional<Size> findSize(Long code);

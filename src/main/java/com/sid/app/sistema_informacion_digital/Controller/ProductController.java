@@ -105,29 +105,25 @@ public class ProductController {
 
     }
 
-    @GetMapping("qualification/{ean}")
-    public ResponseEntity<?> readQualificationProduct(@PathVariable(value="ean") String ean){
+    @GetMapping("qualification")
+    public ResponseEntity<?> readQualificationProduct(){
 
-        return productUseCase.findProduct(ean)
-                .flatMap(product -> productUseCase.findReference(product.getReferenceId())
-                        .flatMap(reference -> productUseCase.findColor(product.getColorId())
-                                .flatMap(color -> productUseCase.findSize(product.getSizeId())
-                                        .flatMap(size -> productUseCase.findByQualification(product.getQualificationId())
-                                                .map(qualification -> ResponseEntity.ok(
-                                                        ResponseDto.builder()
-                                                                .info(QualificationDto.builder()
-                                                                        .product(getBuild(ean, product, reference, color, size))
-                                                                        .quantityLike(qualification.getQuantityLike())
-                                                                        .quantityDisLike(qualification.getQuantityDisLike())
-                                                                        .build())
-                                                                .build()
-                                                )))
-                                ))
-                ).orElse(ResponseEntity.badRequest()
-                        .body(ResponseDto
-                                .builder()
-                                .error("PRODUCTO NO ENCONTRADO")
-                                .build()));
+        return ResponseEntity.ok(
+                ResponseDto.builder()
+                        .info(productUseCase.findAllProducts()
+                                .stream()
+                                .map(product -> productUseCase.findReference(product.getReferenceId())
+                                        .flatMap(reference -> productUseCase.findColor(product.getColorId())
+                                                .flatMap(color -> productUseCase.findSize(product.getSizeId())
+                                                        .flatMap(size -> productUseCase.findByQualification(product.getQualificationId())
+                                                                .map(qualification -> QualificationDto.builder()
+                                                                                        .product(getBuild(product.getEAN(), product, reference, color, size))
+                                                                                        .quantityLike(qualification.getQuantityLike())
+                                                                                        .quantityDisLike(qualification.getQuantityDisLike())
+                                                                                        .build()))
+                                                ))
+                                ).collect(Collectors.toList()))
+                        .build());
     }
 
     private ProductDto getBuild(String ean, Product product, Reference reference, Color color, Size size) {
