@@ -17,4 +17,15 @@ public class Image implements Serializable {
     @Column
     private String url;
 
+    public Long getCode() {
+        return code;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public String getUrl() {
+        return url;
+    }
 }

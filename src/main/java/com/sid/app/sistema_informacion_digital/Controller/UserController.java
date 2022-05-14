@@ -40,8 +40,13 @@ public class UserController {
         }
 
         return ResponseEntity.status(HttpStatus.OK)//.ok(oUser)
-                .body(UserDto
-                        .builder().cedula(oUser.get().getCedula()).name(oUser.get().getName()).build());
+                .body(UserDto.builder()
+                        .cedula(oUser.get()
+                                .getCedula())
+                        .name(oUser.get()
+                                .getName())
+                        .build()
+                );
     }
 
 }

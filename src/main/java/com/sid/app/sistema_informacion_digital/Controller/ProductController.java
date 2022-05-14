@@ -1,18 +1,19 @@
 package com.sid.app.sistema_informacion_digital.Controller;
 
+import com.sid.app.sistema_informacion_digital.Controller.dto.ImageDto;
 import com.sid.app.sistema_informacion_digital.Controller.dto.ProductDto;
 import com.sid.app.sistema_informacion_digital.Controller.dto.ResponseDto;
+import com.sid.app.sistema_informacion_digital.Controller.dto.UserDto;
 import com.sid.app.sistema_informacion_digital.Entity.Product;
 import com.sid.app.sistema_informacion_digital.Entity.Reference;
 import com.sid.app.sistema_informacion_digital.UseCase.ProductUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/product")
@@ -45,5 +46,19 @@ public class ProductController {
                             .builder()
                             .error("PRODUCTO NO ENCONTRADO")
                             .build()));
+    }
+
+    @GetMapping("images/{ean}")
+    public ResponseEntity<?> readImagesEan(@PathVariable(value="ean") String ean){
+        List<ImageDto> imageDtoList = productUseCase.findAllImagesByProduct(ean)
+                .stream().map(image -> ImageDto.builder()
+                        .code(image.getCode())
+                        .productId(image.getProductId())
+                        .url(image.getUrl())
+                        .build()).collect(Collectors.toList());
+
+        return  ResponseEntity.ok(ResponseDto.builder()
+                .info(imageDtoList)
+                .build());
     }
 }
