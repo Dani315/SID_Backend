@@ -21,6 +21,7 @@ public interface ProductService {
 
     List<Color> findAllColorReference(Long code);
 
-    @Transactional(readOnly = true)
     List<Product> findByOcassionType(Long ocassionTypeId);
+
+    Optional<Qualification> findByQualification(Long qualificationId);
 }

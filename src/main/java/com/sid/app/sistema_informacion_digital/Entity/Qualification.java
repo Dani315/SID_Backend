@@ -17,4 +17,15 @@ public class Qualification  implements Serializable {
     @Column
     private Integer quantityDisLike;
 
+    public Long getCode() {
+        return code;
+    }
+
+    public Integer getQuantityLike() {
+        return quantityLike;
+    }
+
+    public Integer getQuantityDisLike() {
+        return quantityDisLike;
+    }
 }

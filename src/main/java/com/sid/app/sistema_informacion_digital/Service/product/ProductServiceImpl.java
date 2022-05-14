@@ -37,6 +37,9 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     private OcassionTypeRepository ocassionTypeRepository;
 
+    @Autowired
+    private QualificationRepository qualificationRepository;
+
     @Override
     @Transactional(readOnly = true)
     public Optional<Product> findByEAN(String EAN) {
@@ -92,5 +95,11 @@ public class ProductServiceImpl implements ProductService{
     @Transactional(readOnly = true)
     public List<Product> findByOcassionType(Long ocassionTypeId) {
         return productRepository.findAllByOcassionTypeId(ocassionTypeId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Qualification> findByQualification(Long qualificationId) {
+        return qualificationRepository.findByCode(qualificationId);
     }
 }

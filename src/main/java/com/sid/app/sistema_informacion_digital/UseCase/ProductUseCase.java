@@ -45,4 +45,8 @@ public class ProductUseCase {
     public List<Product> findAllByOcassionType(Long ocassionTypeId) {
         return  productService.findByOcassionType(ocassionTypeId);
     }
+
+    public Optional<Qualification> findByQualification(Long qualificationId) {
+        return  productService.findByQualification(qualificationId);
+    }
 }

@@ -1,10 +1,7 @@
 package com.sid.app.sistema_informacion_digital.Controller;
 
 import com.sid.app.sistema_informacion_digital.Controller.dto.*;
-import com.sid.app.sistema_informacion_digital.Entity.Color;
-import com.sid.app.sistema_informacion_digital.Entity.Product;
-import com.sid.app.sistema_informacion_digital.Entity.Reference;
-import com.sid.app.sistema_informacion_digital.Entity.Size;
+import com.sid.app.sistema_informacion_digital.Entity.*;
 import com.sid.app.sistema_informacion_digital.UseCase.ProductUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -106,6 +103,31 @@ public class ProductController {
                         ).collect(Collectors.toList()))
                 .build());
 
+    }
+
+    @GetMapping("qualification/{ean}")
+    public ResponseEntity<?> readQualificationProduct(@PathVariable(value="ean") String ean){
+
+        return productUseCase.findProduct(ean)
+                .flatMap(product -> productUseCase.findReference(product.getReferenceId())
+                        .flatMap(reference -> productUseCase.findColor(product.getColorId())
+                                .flatMap(color -> productUseCase.findSize(product.getSizeId())
+                                        .flatMap(size -> productUseCase.findByQualification(product.getQualificationId())
+                                                .map(qualification -> ResponseEntity.ok(
+                                                        ResponseDto.builder()
+                                                                .info(QualificationDto.builder()
+                                                                        .product(getBuild(ean, product, reference, color, size))
+                                                                        .quantityLike(qualification.getQuantityLike())
+                                                                        .quantityDisLike(qualification.getQuantityDisLike())
+                                                                        .build())
+                                                                .build()
+                                                )))
+                                ))
+                ).orElse(ResponseEntity.badRequest()
+                        .body(ResponseDto
+                                .builder()
+                                .error("PRODUCTO NO ENCONTRADO")
+                                .build()));
     }
 
     private ProductDto getBuild(String ean, Product product, Reference reference, Color color, Size size) {
