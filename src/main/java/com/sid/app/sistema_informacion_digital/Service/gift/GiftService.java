@@ -9,4 +9,5 @@ public interface GiftService {
 
     public Optional<Gift> findById(String id);
 
+    public void save(Gift gift);
 }

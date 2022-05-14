@@ -3,6 +3,7 @@ package com.sid.app.sistema_informacion_digital.Controller;
 import com.sid.app.sistema_informacion_digital.Controller.dto.GiftDto;
 import com.sid.app.sistema_informacion_digital.Controller.dto.ResponseDto;
 import com.sid.app.sistema_informacion_digital.Controller.dto.UserDto;
+import com.sid.app.sistema_informacion_digital.Entity.Client;
 import com.sid.app.sistema_informacion_digital.Entity.Gift;
 import com.sid.app.sistema_informacion_digital.Entity.User;
 import com.sid.app.sistema_informacion_digital.UseCase.GiftUseCase;
@@ -25,9 +26,29 @@ public class GiftController {
     public ResponseEntity<?> create(@RequestParam(value="id") String id,
                                     @RequestParam(value="name") String name,
                                     @RequestParam(value="lastName") String lastName,
-                                    @RequestParam(value="email") String email) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(giftUseCase.generate(id, name, lastName, email));
+                                    @RequestParam(value="email") String email) throws Exception {
+
+        try {
+            Optional<Client> oClient = giftUseCase.generate(id, name, lastName, email) ;
+
+            if (oClient.isPresent()) {
+                return ResponseEntity.badRequest().body(
+                        ResponseDto.builder()
+                                .error("EL USUARIO YA HA SOLICITADO BONO")
+                                .build()
+                );
+            }
+
+            return ResponseEntity.ok()
+                    .body(ResponseDto.builder()
+                    .info("BONO GENERADO EXITOSAMENTE, " +
+                            "POR FAVOR ESTE ATENTO A SU CORREO")
+                    .build());
+
+        }catch (Exception e) {
+            throw  new Exception(e.getMessage());
+        }
+
     }
 
     @RequestMapping(value = "/{giftId}", method = RequestMethod.GET,  produces="application/json")

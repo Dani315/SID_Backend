@@ -60,4 +60,10 @@ public class UserServiceImpl implements UserService{
     public Client saveClient(Client client) {
         return clientRepository.save(client);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Client> findClient(String id, String email) {
+        return clientRepository.findByCedulaOrEmail(id, email);
+    }
 }

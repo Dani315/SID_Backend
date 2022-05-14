@@ -20,6 +20,8 @@ public interface UserService {
 
     public void deleteById(String id);
 
-    public Client saveClient(Client client);
+    public Client saveClient(Client client);;
+
+    public List<Client> findClient(String id, String email);
 
 }

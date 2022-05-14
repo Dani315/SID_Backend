@@ -16,8 +16,13 @@ public class UserUseCase {
 
 
     public void saveClient(User user, Client client) {
-       userService.save(user);
-       userService.saveClient(client);
+        try {
+            userService.save(user);
+            userService.saveClient(client);
+        }catch (Exception e) {
+            throw new RuntimeException("A ESTE CORREO YA SE HA NOTIFICADO UN BONO");
+        }
+
     }
 
     public Optional<User> findUser(String userId) {

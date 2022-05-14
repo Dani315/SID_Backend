@@ -17,4 +17,10 @@ public class GiftServiceImpl implements GiftService {
     public Optional<Gift> findById(String id) {
         return giftRepository.findById(id);
     }
+
+
+    @Override
+    public void save(Gift gift) {
+        giftRepository.save(gift);
+    }
 }
