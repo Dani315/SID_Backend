@@ -1,9 +1,13 @@
 package com.sid.app.sistema_informacion_digital.Service.product;
 
+import com.sid.app.sistema_informacion_digital.Entity.Color;
 import com.sid.app.sistema_informacion_digital.Entity.Product;
-import com.sid.app.sistema_informacion_digital.Entity.User;
+import com.sid.app.sistema_informacion_digital.Entity.Reference;
+import com.sid.app.sistema_informacion_digital.Entity.Size;
+import com.sid.app.sistema_informacion_digital.Repository.ColorRepository;
 import com.sid.app.sistema_informacion_digital.Repository.ProductRepository;
-import com.sid.app.sistema_informacion_digital.Repository.UserRepository;
+import com.sid.app.sistema_informacion_digital.Repository.ReferenceRepository;
+import com.sid.app.sistema_informacion_digital.Repository.SizeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,16 +20,37 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ColorRepository colorRepository;
+
+    @Autowired
+    private SizeRepository sizeRepository;
+
+    @Autowired
+    private ReferenceRepository referenceRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Product> findById(Long id) {
-        return productRepository.findById(id);
+    public Optional<Product> findByEAN(String id) {
+        return productRepository.findByEAN(id);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Color> findColor(Long code) {
+        return colorRepository.findByCode(code);
     }
 
     @Override
-    public Optional<Product> findByIdProduct(Long id) {
-        return productRepository.findByIdProduct(id);
+    @Transactional(readOnly = true)
+    public Optional<Size> findSize(Long code) {
+        return sizeRepository.findByCode(code);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Reference> findReference(Long code) {
+        return referenceRepository.findByCode(code);
+    }
 }

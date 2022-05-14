@@ -16,4 +16,16 @@ public class Reference  implements Serializable {
 
     @Column
     private Double price;
+
+    public Long getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
 }

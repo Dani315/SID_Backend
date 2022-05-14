@@ -1,17 +1,13 @@
 package com.sid.app.sistema_informacion_digital.Repository;
 
 import com.sid.app.sistema_informacion_digital.Entity.Product;
-import com.sid.app.sistema_informacion_digital.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 import java.util.Optional;
 
-public interface ProductRepository  extends CrudRepository<Product, Long>, QueryByExampleExecutor<Product> {
+public interface ProductRepository  extends JpaRepository<Product, String> {
 
+    Optional<Product> findByEAN(String id);
     /*@Query(value = "select P.ean, C.name, R.name, R.price, S.code 'size_id', S.name 'size_name', COL.code 'color_id', COL.name 'color_name'" +
             " FROM db_sid.product P \n" +
             "inner join db_sid.color C on P.color_id=C.code\n" +
@@ -21,9 +17,13 @@ public interface ProductRepository  extends CrudRepository<Product, Long>, Query
             "where P.ean= :id", nativeQuery = true)
     Optional<Product> findByIdProduct(@Param("id") Long id);*/
 
-    @Query(value = "select * " +
-            " FROM db_sid.product P \n" +
+    /*@Query(value = "select C.code 'colorId', S.code 'sizeId',C.name 'colorName', S.name 'sizeName'\n" +
+            " FROM db_sid.product P\n" +
+            "inner join color C \n" +
+            "on P.color_id = C.code\n" +
+            "inner join size S\n" +
+            "on P.size_id = S.code\n" +
             "where P.ean= :id", nativeQuery = true)
-    Optional<Product> findByIdProduct(@Param("id") Long id);
+    Optional<ProductReference> findByIdProduct(@Param("id") Long id);*/
 
 }

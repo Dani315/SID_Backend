@@ -1,9 +1,10 @@
 package com.sid.app.sistema_informacion_digital.Controller;
 
+import com.sid.app.sistema_informacion_digital.Controller.dto.ProductDto;
+import com.sid.app.sistema_informacion_digital.Controller.dto.ResponseDto;
 import com.sid.app.sistema_informacion_digital.Entity.Product;
-import com.sid.app.sistema_informacion_digital.Entity.User;
-import com.sid.app.sistema_informacion_digital.Service.UserService;
-import com.sid.app.sistema_informacion_digital.Service.product.ProductService;
+import com.sid.app.sistema_informacion_digital.Entity.Reference;
+import com.sid.app.sistema_informacion_digital.UseCase.ProductUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,16 +19,31 @@ import java.util.Optional;
 public class ProductController {
 
     @Autowired
-    private ProductService productService;
+    ProductUseCase productUseCase;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> read(@PathVariable(value="id") Long userId){
-        Optional<Product> optionalProduct = productService.findByIdProduct(userId);
-
-        if(optionalProduct.isEmpty()) {
-            return  ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(optionalProduct.get());
+    @GetMapping("/{ean}")
+    public ResponseEntity<?> read(@PathVariable(value="ean") String ean){
+        return productUseCase.findProduct(ean)
+            .flatMap(product -> productUseCase.findReference(product.getReferenceId())
+                .flatMap(reference -> productUseCase.findColor(product.getColorId())
+                    .flatMap(color -> productUseCase.findSize(product.getSizeId())
+                        .map(size -> ResponseEntity.ok(ResponseDto.builder()
+                            .info(ProductDto.builder()
+                                    .ean(ean)
+                                    .colorName(color.getName())
+                                    .colorCode(color.getCode())
+                                    .sizeName(size.getName())
+                                    .sizeCode(size.getCode())
+                                    .codeReference(reference.getCode())
+                                    .nameReference(reference.getName())
+                                    .price(reference.getPrice())
+                                    .build())
+                            .build()))))
+                )
+                .orElse(ResponseEntity.badRequest()
+                    .body(ResponseDto
+                            .builder()
+                            .error("PRODUCTO NO ENCONTRADO")
+                            .build()));
     }
 }

@@ -34,6 +34,7 @@ public class GiftUseCase {
 
     public Optional<Client> generate(String id, String name, String lastName, String email) {
 
+
        return Optional.ofNullable(clientUseCase.findClient(id, email)
                .stream()
                .findAny()
@@ -55,7 +56,7 @@ public class GiftUseCase {
     public Optional<Gift> updateGift(String idGift){
         Optional<Gift> gift = find(idGift);
         if(gift.isPresent()){
-            gift.get().setState("NO DISPONIBLE");
+            gift.get().setState(StateGift.NO_DISPONIBLE.getState());
             gift.get().setActualizationDate(Date.valueOf(LocalDate.now()));
             giftService.save(gift.get());
         }

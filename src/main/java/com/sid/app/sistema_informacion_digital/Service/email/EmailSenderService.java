@@ -57,7 +57,7 @@ public class EmailSenderService {
             transport.close();
         }
         catch (MessagingException me) {
-            throw new RuntimeException(me.getMessage());  //Si se produce un error
+            throw new RuntimeException("PROBLEMAS AL ENVIAR EL CORREO ELECTRONICO: " + me.getMessage());  //Si se produce un error
         }
     }
 

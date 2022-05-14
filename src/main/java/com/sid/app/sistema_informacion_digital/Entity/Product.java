@@ -25,4 +25,28 @@ public class Product implements Serializable {
 
     @Column
     private Long sizeId;
+
+    public String getEAN() {
+        return EAN;
+    }
+
+    public Long getOcassionTypeId() {
+        return ocassionTypeId;
+    }
+
+    public Long getQualificationId() {
+        return qualificationId;
+    }
+
+    public Long getReferenceId() {
+        return referenceId;
+    }
+
+    public Long getColorId() {
+        return colorId;
+    }
+
+    public Long getSizeId() {
+        return sizeId;
+    }
 }
