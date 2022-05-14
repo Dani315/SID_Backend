@@ -20,4 +20,7 @@ public interface ProductService {
     List<Size> findAllSizeReference(Long code);
 
     List<Color> findAllColorReference(Long code);
+
+    @Transactional(readOnly = true)
+    List<Product> findByOcassionType(Long ocassionTypeId);
 }

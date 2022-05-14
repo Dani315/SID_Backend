@@ -1,8 +1,10 @@
 package com.sid.app.sistema_informacion_digital.Controller;
 
 import com.sid.app.sistema_informacion_digital.Controller.dto.*;
+import com.sid.app.sistema_informacion_digital.Entity.Color;
 import com.sid.app.sistema_informacion_digital.Entity.Product;
 import com.sid.app.sistema_informacion_digital.Entity.Reference;
+import com.sid.app.sistema_informacion_digital.Entity.Size;
 import com.sid.app.sistema_informacion_digital.UseCase.ProductUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,21 +28,9 @@ public class ProductController {
                 .flatMap(reference -> productUseCase.findColor(product.getColorId())
                     .flatMap(color -> productUseCase.findSize(product.getSizeId())
                         .map(size -> ResponseEntity.ok(ResponseDto.builder()
-                            .info(ProductDto.builder()
-                                    .ean(ean)
-                                    .color(DetalleDto.builder()
-                                            .code(color.getCode())
-                                            .name(color.getName())
-                                            .build())
-                                    .size(DetalleDto.builder()
-                                            .code(size.getCode())
-                                            .name(size.getName())
-                                            .build())
-                                    .codeReference(reference.getCode())
-                                    .nameReference(reference.getName())
-                                    .price(reference.getPrice())
-                                    .build())
-                            .build()))))
+                                .info(getBuild(ean, product, reference, color, size))
+                                .build()
+                        ))))
                 )
                 .orElse(ResponseEntity.badRequest()
                     .body(ResponseDto
@@ -48,6 +38,8 @@ public class ProductController {
                             .error("PRODUCTO NO ENCONTRADO")
                             .build()));
     }
+
+
 
     @GetMapping("images/{ean}")
     public ResponseEntity<?> readImagesEan(@PathVariable(value="ean") String ean){
@@ -92,5 +84,46 @@ public class ProductController {
                 .info(colorReferenceList)
                 .build());
 
+    }
+
+    @GetMapping("ocassionType/{ocassionTypeId}")
+    public ResponseEntity<?> readOcassionType(@PathVariable(value="ocassionTypeId") Long ocassionTypeId){
+        return ResponseEntity.ok(ResponseDto.builder()
+                .info(productUseCase.findAllByOcassionType(ocassionTypeId)
+                        .stream()
+                        .map(product -> productUseCase.findReference(product.getReferenceId())
+                                .map(reference -> productUseCase.findColor(product.getColorId())
+                                        .map(color -> productUseCase.findSize(product.getSizeId())
+                                                .map(size -> productUseCase.findAllImagesByProduct(product.getEAN()).stream().findFirst()
+                                                        .map(image -> OcassionTypeDto.builder()
+                                                                .product(getBuild(product.getEAN(), product, reference, color, size))
+                                                                .image(image.getUrl())
+                                                                .build()
+                                                        )
+                                                )
+                                        )
+                                )
+                        ).collect(Collectors.toList()))
+                .build());
+
+    }
+
+    private ProductDto getBuild(String ean, Product product, Reference reference, Color color, Size size) {
+        return ProductDto.builder()
+                    .ean(ean)
+                    .color(DetalleDto.builder()
+                            .code(color.getCode())
+                            .name(color.getName())
+                            .build())
+                    .size(DetalleDto.builder()
+                            .code(size.getCode())
+                            .name(size.getName())
+                            .build())
+                    .codeReference(reference.getCode())
+                    .nameReference(reference.getName())
+                    .price(reference.getPrice())
+                    .ocassionTypeId(product.getOcassionTypeId())
+                    .qualificationId(product.getQualificationId())
+                    .build();
     }
 }

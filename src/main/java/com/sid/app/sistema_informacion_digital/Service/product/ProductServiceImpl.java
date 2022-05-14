@@ -34,6 +34,9 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     private ColorReferenceRepository colorReferenceRepository;
 
+    @Autowired
+    private OcassionTypeRepository ocassionTypeRepository;
+
     @Override
     @Transactional(readOnly = true)
     public Optional<Product> findByEAN(String EAN) {
@@ -83,5 +86,11 @@ public class ProductServiceImpl implements ProductService{
                 .map(color -> colorRepository.findByCode(color.getColorId())
                         .orElse(null)
                 ).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Product> findByOcassionType(Long ocassionTypeId) {
+        return productRepository.findAllByOcassionTypeId(ocassionTypeId);
     }
 }

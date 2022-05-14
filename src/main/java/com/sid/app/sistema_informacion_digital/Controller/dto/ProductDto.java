@@ -3,6 +3,8 @@ package com.sid.app.sistema_informacion_digital.Controller.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.Column;
+
 @Builder
 @Data
 public class ProductDto {
@@ -18,4 +20,8 @@ public class ProductDto {
     private String nameReference;
 
     private Double price;
+
+    private Long ocassionTypeId;
+
+    private Long qualificationId;
 }

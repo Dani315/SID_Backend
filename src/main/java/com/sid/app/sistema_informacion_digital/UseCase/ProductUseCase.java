@@ -41,4 +41,8 @@ public class ProductUseCase {
     public List<Color> findAllColorReferenceByProduct(Long code) {
         return  productService.findAllColorReference(code);
     }
+
+    public List<Product> findAllByOcassionType(Long ocassionTypeId) {
+        return  productService.findByOcassionType(ocassionTypeId);
+    }
 }
