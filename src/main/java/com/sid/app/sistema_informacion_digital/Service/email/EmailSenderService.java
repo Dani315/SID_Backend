@@ -1,5 +1,6 @@
 package com.sid.app.sistema_informacion_digital.Service.email;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Message;
@@ -10,20 +11,36 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-
 @Service
 public class EmailSenderService {
+
+    @Value("${mail.smtp.host}")
+    private String host;
+
+    @Value("${mail.smtp.user}")
+    private String remitente;
+
+    @Value("${mail.smtp.clave}")
+    private String clave;
+
+    @Value("${mail.smtp.auth}")
+    private String auth;
+
+    @Value("${mail.smtp.starttls.enable}")
+    private String starttls;
+
+    @Value("${mail.smtp.port}")
+    private String port;
+
     public  void enviarConGMail(String destinatario, String asunto, String giftId) {
-        // Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el remitente también.
-         String remitente = "viafirmadaniela@gmail.com";  //Para la dirección nomcuenta@gmail.com
 
         Properties props = System.getProperties();
-        props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
+        props.put("mail.smtp.host", host);  //El servidor SMTP de Google
         props.put("mail.smtp.user", remitente);
-        props.put("mail.smtp.clave", "SofkaUniversity2021+");    //La clave de la cuenta
-        props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
-        props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
-        props.put("mail.smtp.port", "587"); //El puerto SMTP seguro de Google
+        props.put("mail.smtp.clave", clave);    //La clave de la cuenta
+        props.put("mail.smtp.auth", auth);    //Usar autenticación mediante usuario y clave
+        props.put("mail.smtp.starttls.enable", starttls); //Para conectar de manera segura al servidor SMTP
+        props.put("mail.smtp.port", port); //El puerto SMTP seguro de Google
 
         Session session = Session.getDefaultInstance(props);
         MimeMessage message = new MimeMessage(session);
@@ -52,7 +69,7 @@ public class EmailSenderService {
                     "Recuerda llevar tu cédula para validar tu identidad.\n" +
                     "</u>", "text/html; charset=utf-8");
             Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", remitente,  "SofkaUniversity2021+");
+            transport.connect(host, remitente,  clave);
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         }
