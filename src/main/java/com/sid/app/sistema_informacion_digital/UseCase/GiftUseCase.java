@@ -34,13 +34,11 @@ public class GiftUseCase {
 
     public Optional<Client> generate(String id, String name, String lastName, String email) {
 
-
        return Optional.ofNullable(clientUseCase.findClient(id, email)
                .stream()
                .findAny()
                .orElseGet(() -> {
                    userUseCase.saveClient(new User(id, name+" " +lastName), new Client(id, email));
-
                    emailSenderService.enviarConGMail(email,
                            "¡BONO DESCUENTO TIENDA GEF!",
                            this.save(id));
@@ -69,7 +67,6 @@ public class GiftUseCase {
 
     public String save(String idUser) {
         String idGift = generateAlpha.getRandomString(10);
-
         giftService.save(new Gift(idGift,
                 idUser,
                 StateGift.DISPONIBLE.name(),

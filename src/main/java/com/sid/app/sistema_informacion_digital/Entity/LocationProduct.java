@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "LOCATION_PRODUCT")
+@IdClass(value = LocationProductPK.class)
 public class LocationProduct  implements Serializable {
 
     @Id
@@ -15,4 +16,16 @@ public class LocationProduct  implements Serializable {
 
     @Column
     private Integer stock;
+
+    public Long getLocationId() {
+        return locationId;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
 }

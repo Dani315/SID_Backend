@@ -23,5 +23,23 @@ public class Location  implements Serializable {
     @Column
     private Double longitude;
 
+    public Long getSerial() {
+        return serial;
+    }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
 }
