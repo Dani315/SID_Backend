@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -54,9 +53,9 @@ public class ProductController {
 
     @GetMapping("talla-referencia/{referenceId}")
     public ResponseEntity<?> readReferenceSize(@PathVariable(value="referenceId") Long referenceId){
-        List<DetalleDto> sizeReferenceList = productUseCase.findAllSizeReferenceByProduct(referenceId)
+        List<SizeDto> sizeReferenceList = productUseCase.findAllSizeReferenceByProduct(referenceId)
                 .stream()
-                .map(sizeReference -> DetalleDto.builder()
+                .map(sizeReference -> SizeDto.builder()
                         .code(sizeReference.getCode())
                         .name(sizeReference.getName())
                         .build())
@@ -69,11 +68,12 @@ public class ProductController {
     }
     @GetMapping("color-referencia/{referenceId}")
     public ResponseEntity<?> readReferenceColor(@PathVariable(value="referenceId") Long referenceId){
-        List<DetalleDto> colorReferenceList = productUseCase.findAllColorReferenceByProduct(referenceId)
+        List<ColorDto> colorReferenceList = productUseCase.findAllColorReferenceByProduct(referenceId)
                 .stream()
-                .map(colorReference -> DetalleDto.builder()
+                .map(colorReference -> ColorDto.builder()
                         .code(colorReference.getCode())
                         .name(colorReference.getName())
+                        .palette(colorReference.getPalette())
                         .build())
                 .collect(Collectors.toList());
 
@@ -129,11 +129,12 @@ public class ProductController {
     private ProductDto getBuild(String ean, Product product, Reference reference, Color color, Size size) {
         return ProductDto.builder()
                     .ean(ean)
-                    .color(DetalleDto.builder()
+                    .color(ColorDto.builder()
                             .code(color.getCode())
                             .name(color.getName())
+                            .palette(color.getPalette())
                             .build())
-                    .size(DetalleDto.builder()
+                    .size(SizeDto.builder()
                             .code(size.getCode())
                             .name(size.getName())
                             .build())

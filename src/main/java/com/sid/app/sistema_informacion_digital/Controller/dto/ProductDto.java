@@ -3,17 +3,15 @@ package com.sid.app.sistema_informacion_digital.Controller.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.Column;
-
 @Builder
 @Data
 public class ProductDto {
 
     private String ean;
 
-    private DetalleDto color;
+    private ColorDto color;
 
-    private DetalleDto size;
+    private SizeDto size;
 
     private Long codeReference;
 

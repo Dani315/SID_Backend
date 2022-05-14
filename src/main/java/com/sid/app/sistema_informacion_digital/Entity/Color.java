@@ -14,11 +14,18 @@ public class Color  implements Serializable {
     @Column
     private String name;
 
+    @Column
+    private String palette;
+
     public Long getCode() {
         return code;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getPalette() {
+        return palette;
     }
 }

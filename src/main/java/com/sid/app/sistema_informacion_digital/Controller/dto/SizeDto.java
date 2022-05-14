@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class DetalleDto {
+public class SizeDto {
 
     private String name;
     private Long code;
