@@ -11,8 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class GiftUseCase {
@@ -73,6 +77,24 @@ public class GiftUseCase {
                 Date.valueOf(LocalDate.now())));
 
         return idGift;
+    }
+
+    public long updateGiftJob(){
+
+        return giftService.findAll()
+                .stream()
+                .filter(gift -> {
+                    LocalDate creationDate = LocalDate.parse(gift.getCreationDate()
+                            .toString(), DateTimeFormatter.ISO_LOCAL_DATE);
+
+                    Duration diff = Duration.between(creationDate.atStartOfDay(), LocalDate.now().atStartOfDay());
+                    return diff.toDays() > 10 && !Objects.equals(gift.getState(), StateGift.NO_DISPONIBLE.getState());
+                }).peek(gift -> {
+                    gift.setState(StateGift.NO_DISPONIBLE.getState());
+                    gift.setActualizationDate(Date.valueOf(LocalDate.now()));
+                    giftService.save(gift);
+                }).count();
+
     }
 
 }
